@@ -14,6 +14,7 @@ import com.chapark.miniproject.data.NetworkResult;
 import com.chapark.miniproject.data.User;
 import com.chapark.miniproject.manager.NetworkManager;
 import com.chapark.miniproject.manager.NetworkRequest;
+import com.chapark.miniproject.manager.PropertyManager;
 import com.chapark.miniproject.request.SignUpRequest;
 
 import butterknife.BindView;
@@ -47,13 +48,16 @@ public class SignUpFragment extends Fragment {
     @OnClick(R.id.btn_sign_up)
     public void onSignUp() {
         String username = nameView.getText().toString();
-        String email = emailView.getText().toString();
-        String password = passwordView.getText().toString();
+        final String email = emailView.getText().toString();
+        final String password = passwordView.getText().toString();
         SignUpRequest request = new SignUpRequest(getContext(), username, password, email, "1234");
         NetworkManager.getInstance().getNetworkData(request, new NetworkManager.OnResultListener<NetworkResult<User>>() {
             @Override
             public void onSuccess(NetworkRequest<NetworkResult<User>> request, NetworkResult<User> result) {
                 User user = result.getResult();
+                PropertyManager.getInstance().setEmail(email);
+                PropertyManager.getInstance().setPassword(password);
+                PropertyManager.getInstance().setRegistrationId("1234");
                 Toast.makeText(getContext(), "user id :" + user.getId(), Toast.LENGTH_SHORT).show();
                 ((SimpleLoginActivity)getActivity()).moveMainActivity();
             }
