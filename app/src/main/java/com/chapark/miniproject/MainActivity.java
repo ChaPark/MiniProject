@@ -6,19 +6,13 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.chapark.miniproject.data.NetworkResult;
-import com.chapark.miniproject.data.User;
 import com.chapark.miniproject.login.SimpleLoginActivity;
 import com.chapark.miniproject.manager.NetworkManager;
 import com.chapark.miniproject.manager.NetworkRequest;
 import com.chapark.miniproject.manager.PropertyManager;
-import com.chapark.miniproject.request.FriendListRequest;
 import com.chapark.miniproject.request.LogoutRequest;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
         tabHost.addTab(tabHost.newTabSpec("main").setIndicator("Main"), MainFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("chat").setIndicator("Chat"), ChatUserFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("content").setIndicator("Content"), ContentFragment.class, null);
     }
 
     @Override

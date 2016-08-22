@@ -34,6 +34,7 @@ public class MainFragment extends Fragment {
     public MainFragment() {
         // Required empty public constructor
     }
+
     @BindView(R.id.listView)
     ListView listView;
 
@@ -63,7 +64,10 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
+
         listView.setAdapter(mAdapter);
+
+
         return view;
     }
 
@@ -74,5 +78,4 @@ public class MainFragment extends Fragment {
         intent.putExtra(ChatActivity.EXTRA_USER, user);
         startActivity(intent);
     }
-
 }

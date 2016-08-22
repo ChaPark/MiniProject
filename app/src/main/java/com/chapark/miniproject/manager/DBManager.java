@@ -16,10 +16,9 @@ import java.util.Map;
  * Created by Tacademy on 2016-08-11.
  */
 public class DBManager extends SQLiteOpenHelper {
-
     private static DBManager instance;
-    public static DBManager getInstance(){
-        if( instance == null ){
+    public static DBManager getInstance() {
+        if (instance == null) {
             instance = new DBManager();
         }
         return instance;
@@ -28,7 +27,9 @@ public class DBManager extends SQLiteOpenHelper {
     private static final String DB_NAME = "chat_db";
     private static final int DB_VERSION = 1;
 
-    private DBManager(){ super(MyApplication.getContext(), DB_NAME, null, DB_VERSION);}
+    private DBManager() {
+        super(MyApplication.getContext(), DB_NAME, null, DB_VERSION);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -55,13 +56,13 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     public long getUserId(long serverId) {
-        String selection = ChatContract.ChatUser.COLUMN_SERVER_ID+ " = ?";
+        String selection = ChatContract.ChatUser.COLUMN_SERVER_ID + " = ?";
         String[] args = {""+serverId};
         String[] columns = {ChatContract.ChatUser._ID};
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.query(ChatContract.ChatUser.TABLE, columns, selection, args, null, null, null);
-        try{
-            if(c.moveToNext()){
+        try {
+            if (c.moveToNext()) {
                 long id = c.getLong(c.getColumnIndex(ChatContract.ChatUser._ID));
                 return id;
             }
@@ -72,9 +73,8 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     ContentValues values = new ContentValues();
-
-    public long addUser(User user){
-        if(getUserId((user.getId())) != -1){
+    public long addUser(User user) {
+        if (getUserId(user.getId()) == -1) {
             SQLiteDatabase db = getWritableDatabase();
             values.clear();
             values.put(ChatContract.ChatUser.COLUMN_SERVER_ID, user.getId());
@@ -84,12 +84,13 @@ public class DBManager extends SQLiteOpenHelper {
         }
         throw new IllegalArgumentException("aleady user added");
     }
+
     Map<Long, Long> resolveUserId = new HashMap<>();
-    public long addMessage(User user, int type, String message){
+    public long addMessage(User user, int type, String message) {
         Long uid = resolveUserId.get(user.getId());
-        if(uid ==null){
+        if (uid == null) {
             long id = getUserId(user.getId());
-            if(id == -1){
+            if (id == -1) {
                 id = addUser(user);
             }
             resolveUserId.put(user.getId(), id);
@@ -151,10 +152,11 @@ public class DBManager extends SQLiteOpenHelper {
                 ChatContract.ChatMessage.COLUMN_TYPE,
                 ChatContract.ChatMessage.COLUMN_MESSAGE,
                 ChatContract.ChatMessage.COLUMN_CREATED};
-        String selection = ChatContract.ChatMessage.COLUMN_USER_ID + " = ";
+        String selection = ChatContract.ChatMessage.COLUMN_USER_ID + " = ?";
         String[] args = {"" + userid};
         String sort = ChatContract.ChatMessage.COLUMN_CREATED + " ASC";
         SQLiteDatabase db = getReadableDatabase();
         return db.query(ChatContract.ChatMessage.TABLE, columns, selection, args, null, null, sort);
     }
+
 }

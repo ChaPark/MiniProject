@@ -1,6 +1,7 @@
 package com.chapark.miniproject;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.chapark.miniproject.data.ChatContract;
+import com.chapark.miniproject.data.User;
 import com.chapark.miniproject.manager.DBManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 
 
 /**
@@ -25,7 +28,6 @@ public class ChatUserFragment extends Fragment {
 
 
     public ChatUserFragment() {
-        // Required empty public constructor
     }
 
     @BindView(R.id.listView)
@@ -42,7 +44,6 @@ public class ChatUserFragment extends Fragment {
         mAdapter = new SimpleCursorAdapter(getContext(), R.layout.view_chat_user, null, from, to, 0);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,6 +51,18 @@ public class ChatUserFragment extends Fragment {
         ButterKnife.bind(this, view);
         listView.setAdapter(mAdapter);
         return view;
+    }
+
+    @OnItemClick(R.id.listView)
+    public void onItemClick(int position, long id) {
+        Cursor cursor = (Cursor)listView.getItemAtPosition(position);
+        User user = new User();
+        user.setId(cursor.getLong(cursor.getColumnIndex(ChatContract.ChatUser.COLUMN_SERVER_ID)));
+        user.setEmail(cursor.getString(cursor.getColumnIndex(ChatContract.ChatUser.COLUMN_EMAIL)));
+        user.setUserName(cursor.getString(cursor.getColumnIndex(ChatContract.ChatUser.COLUMN_NAME)));
+        Intent intent = new Intent(getContext(),ChatActivity.class);
+        intent.putExtra(ChatActivity.EXTRA_USER, user);
+        startActivity(intent);
     }
 
     @Override
