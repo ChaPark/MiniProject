@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "508313886098",
+    "project_id": "orum-1470719845577"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508313886098:android:b3db6dc8c652c7d9",
+        "android_client_info": {
+          "package_name": "com.chapark.miniproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9Yb1VBRKZ0gfSJBDMwjjwIo1hLflc1BA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
